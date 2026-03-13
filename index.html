@@ -45,30 +45,36 @@
     @media(min-width:992px){body,a,button{cursor:none;}}
 
     body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:1;opacity:.025;
-      background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)'/%3E%3C/svg%3E");}
-
-    /* NAV */
+      background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)'/%3E%3C/svg%3E");}    /* NAV */
     nav{position:fixed;top:0;width:100%;z-index:1000;padding:1.3rem 8%;display:flex;justify-content:space-between;align-items:center;background:var(--nav-bg);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);transition:.4s;}
-    .logo{font-family:'Playfair Display',serif;font-size:1.5rem;font-weight:900;color:var(--gold);text-decoration:none;}
+    .logo{font-family:'Playfair Display',serif;font-size:1.5rem;font-weight:900;color:var(--gold);text-decoration:none;z-index:1001;}
     .nav-mid{display:flex;gap:2.5rem;}
     .nav-mid a{text-decoration:none;color:var(--sub);font-size:.88rem;font-weight:500;letter-spacing:.5px;transition:.3s;position:relative;}
     .nav-mid a::after{content:'';position:absolute;bottom:-4px;left:0;width:0;height:1px;background:var(--gold);transition:.3s;}
     .nav-mid a:hover{color:var(--gold);}
     .nav-mid a:hover::after{width:100%;}
-    .nav-right{display:flex;align-items:center;gap:1rem;}
+    .nav-right{display:flex;align-items:center;gap:1rem;z-index:1001;}
 
     /* Theme pill toggle */
-    .theme-pill{display:flex;align-items:center;gap:6px;padding:6px 14px;border-radius:100px;border:1px solid var(--border);background:var(--card2);cursor:pointer;transition:.3s;font-size:.78rem;font-weight:600;color:var(--sub);}
+    .theme-pill{display:flex;align-items:center;gap:6px;padding:6px 14px;border-radius:100px;border:1px solid var(--border);background:var(--card2);cursor:pointer;transition:.3s;font-size:.78rem;font-weight:600;color:var(--sub);-webkit-tap-highlight-color:transparent;}
     .theme-pill:hover{border-color:var(--gold);color:var(--gold);}
     .theme-pill .icon{font-size:.85rem;transition:.3s;}
 
-    .nav-cta{padding:9px 22px;background:var(--gold);color:#080808;border-radius:8px;font-weight:700;font-size:.85rem;text-decoration:none;transition:.3s;border:none;}
+    .nav-cta{padding:10px 22px;background:var(--gold);color:#080808;border-radius:8px;font-weight:700;font-size:.85rem;text-decoration:none;transition:.3s;border:none;display:inline-flex;align-items:center;justify-content:center;min-height:44px;}
     .nav-cta:hover{box-shadow:0 0 25px var(--glow);transform:translateY(-2px);}
-    .hamburger{display:none;background:none;border:none;color:var(--text);font-size:1.4rem;}
-    @media(max-width:768px){
-      .nav-mid{display:none;position:fixed;top:70px;left:0;width:100%;background:var(--bg2);flex-direction:column;padding:2rem;gap:1.5rem;border-bottom:1px solid var(--border2);}
-      .nav-mid.open{display:flex;}
+    .hamburger{display:none;background:none;border:none;color:var(--text);font-size:1.5rem;cursor:pointer;padding:5px;-webkit-tap-highlight-color:transparent;}
+    
+    .nav-overlay{position:fixed;inset:0;background:rgba(0,0,0,.6);backdrop-filter:blur(4px);z-index:999;opacity:0;pointer-events:none;transition:.4s;}
+    .nav-overlay.open{opacity:1;pointer-events:auto;}
+
+    @media(max-width:991px){
+      nav{padding:1rem 6%;}
+      .nav-mid{position:fixed;top:0;right:-100%;width:280px;height:100vh;background:var(--bg2);flex-direction:column;padding:6rem 2.5rem;gap:2rem;transition:.5s cubic-bezier(0.4, 0, 0.2, 1);z-index:1000;box-shadow:-10px 0 30px rgba(0,0,0,0.5);border-left:1px solid var(--border2);}
+      .nav-mid.open{right:0;}
+      .nav-mid a{font-size:1.2rem;}
       .hamburger{display:block;}
+      .nav-right{gap:0.8rem;}
+      .nav-cta{display:none;} /* Moved to bottom of sidebar in JS or kept hidden if email is in nav-mid */
     }
 
     /* HERO */
@@ -131,6 +137,9 @@
     .stag::before{content:'';width:28px;height:1px;background:var(--gold);}
     .stitle{font-size:clamp(2rem,4vw,3.2rem);font-weight:900;letter-spacing:-1px;margin-bottom:.8rem;}
     .ssub{color:var(--sub);max-width:520px;line-height:1.85;margin-bottom:4rem;}
+
+    /* ABOUT */
+    .ab-grid{display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center;}
 
     /* SKILLS */
     .skills-g{display:grid;grid-template-columns:1fr 1fr;gap:5rem;}
@@ -223,10 +232,23 @@
     .d1{transition-delay:.1s}.d2{transition-delay:.2s}.d3{transition-delay:.3s}.d4{transition-delay:.4s}
 
     @media(max-width:1024px){
-      .hero-in,.skills-g,.ct-grid{grid-template-columns:1fr;}
-      .hviz{display:none;}
+      .hero-in{grid-template-columns:1fr; gap:3rem; text-align:center;}
+      .eyebrow{justify-content:center;}
+      .hdesc{margin-left:auto; margin-right:auto;}
+      .hbtns{justify-content:center;}
+      .hsocs{justify-content:center;}
+      .hviz{display:flex; order:-1; margin-bottom:1rem;}
+      .av-wrap, .av-box{width:240px; height:240px;}
+      .av-emoji{font-size:3.5rem;}
+      .ftag:nth-child(3){right:-10px;}
+      .ftag:nth-child(4){left:-20px;}
+      .ftag:nth-child(5){right:-5px;}
+      
+      .ab-grid,.skills-g,.ct-grid{grid-template-columns:1fr;}
       .stats-row{flex-wrap:wrap;}
       .stat{flex:1 1 50%;border-right:none;border-bottom:1px solid var(--border2);}
+      .stat:nth-child(even){border-right:none;}
+      .stat:nth-child(odd){border-right:1px solid var(--border2);}
     }
     @media(max-width:600px){
       section{padding:70px 6%;} nav{padding:1rem 6%;}
@@ -239,6 +261,7 @@
 <body>
 
 <div class="theme-flash" id="flash"></div>
+<div class="nav-overlay" id="navOverlay"></div>
 <div class="cdot" id="cdot"></div>
 <div class="cring" id="cring"></div>
 
@@ -256,7 +279,7 @@
       <span class="icon" id="themeIcon">🌙</span>
       <span id="themeLabel">Dark</span>
     </button>
-    <a href="mailto:abdulmannanbhatti936@gmail.com" class="nav-cta" aria-label="Hire Me">Hire Me</a>
+    <a href="#contact" class="nav-cta" aria-label="Hire Me">Hire Me</a>
     <button class="hamburger" id="hamburger" aria-label="Toggle Navigation Menu"><i class="fas fa-bars"></i></button>
   </div>
 </nav>
@@ -304,8 +327,9 @@
 </div>
 
 <section id="about">
-  <div class="rl">
-    <div class="stag">About Me</div>
+  <div class="ab-grid">
+    <div class="rl">
+      <div class="stag">About Me</div>
     <h2 class="stitle">The Person Behind the Code</h2>
     <p class="ssub">I'm Abdul Mannan Bhatti — a Full Stack Developer and UI/UX Designer who turns complex problems into clean, fast, and beautiful digital products. With hands-on experience across PHP, JavaScript, React, and MySQL, I build everything from dynamic web apps to polished interfaces. I don't just write code — I craft experiences.</p>
   </div>
@@ -313,6 +337,7 @@
     <div class="tl-item"><div class="tl-dot"></div><div class="tl-card"><div class="tl-date">2024 — Present</div><div class="tl-title">Full Stack Developer & Freelancer</div><div class="tl-pl">Independent / Self-Employed</div><div class="tl-desc">Building and deploying real-world web applications. Specializing in PHP backends, MySQL databases, responsive frontends, and complete admin systems.</div></div></div>
     <div class="tl-item"><div class="tl-dot"></div><div class="tl-card"><div class="tl-date">2023 — 2024</div><div class="tl-title">Frontend & UI/UX Development</div><div class="tl-pl">Self-taught / Project-based</div><div class="tl-desc">Deep focus on modern JavaScript, React.js, and UI/UX principles. Built multiple projects with emphasis on user experience and responsive design.</div></div></div>
     <div class="tl-item"><div class="tl-dot"></div><div class="tl-card"><div class="tl-date">2022 — 2023</div><div class="tl-title">Backend Development with PHP</div><div class="tl-pl">Foundation Building</div><div class="tl-desc">Started with core PHP and MySQL — built CRUD systems, admin dashboards, and database-driven apps from scratch.</div></div></div>
+  </div>
   </div>
 </section>
 
@@ -436,8 +461,26 @@ document.querySelectorAll('a,button,.pj,.sv,.tl-card').forEach(el=>{
   el.addEventListener('mouseleave',()=>cring.classList.remove('big'));
 });
 
-/* HAMBURGER */
-document.getElementById('hamburger').addEventListener('click',()=>document.getElementById('navLinks').classList.toggle('open'));
+/* HAMBURGER & MOBILE NAV */
+const hamburger = document.getElementById('hamburger');
+const navLinks = document.getElementById('navLinks');
+const navOverlay = document.getElementById('navOverlay');
+
+function toggleMenu() {
+  navLinks.classList.toggle('open');
+  navOverlay.classList.toggle('open');
+  document.body.style.overflow = navLinks.classList.contains('open') ? 'hidden' : '';
+  hamburger.querySelector('i').classList.toggle('fa-bars');
+  hamburger.querySelector('i').classList.toggle('fa-times');
+}
+
+hamburger.addEventListener('click', toggleMenu);
+navOverlay.addEventListener('click', toggleMenu);
+navLinks.querySelectorAll('a').forEach(link => {
+  link.addEventListener('click', () => {
+    if(window.innerWidth <= 991) toggleMenu();
+  });
+});
 
 /* HERO CANVAS — Gold Particle Network */
 const canvas=document.getElementById('hc'),ctx=canvas.getContext('2d');

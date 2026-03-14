@@ -254,11 +254,14 @@
       .stat:nth-child(odd){border-right:1px solid var(--border2);}
     }
     @media(max-width:768px){
+      header{min-height:auto; padding:100px 16px 60px;}
       .hero-in h1{font-size:40px; line-height:1.1;}
       .av-wrap, .av-box{width:250px; height:250px; margin:0 auto;}
       .ftag{display:none;}
-      .hbtns{flex-direction:column; gap:16px; width:100%;}
+      .hbtns{flex-direction:column; gap:8px; width:100%;}
       .btn{width:100%; justify-content:center;}
+      .trow{justify-content:center; flex-wrap:wrap;}
+      /* Sidebar hidden off screen by default, brought in by .open class */
       section{padding:80px 16px;}
     }
     @media(max-width:480px){
@@ -362,7 +365,7 @@
     <div class="rl">
       <div class="sg"><div class="sg-t">Backend</div><div class="sktags"><span class="sktag"><i class="fab fa-php"></i> PHP</span><span class="sktag"><i class="fas fa-database"></i> MySQL</span><span class="sktag"><i class="fas fa-server"></i> REST APIs</span><span class="sktag"><i class="fas fa-lock"></i> Auth Systems</span></div></div>
       <div class="sg"><div class="sg-t">Frontend</div><div class="sktags"><span class="sktag"><i class="fab fa-react"></i> React.js</span><span class="sktag"><i class="fab fa-js"></i> JavaScript</span><span class="sktag"><i class="fab fa-html5"></i> HTML5</span><span class="sktag"><i class="fab fa-css3-alt"></i> CSS3</span></div></div>
-      <div class="sg"><div class="sg-t">Design & Tools</div><div class="sktags"><span class="sktag"><i class="fas fa-pencil-ruler"></i> UI/UX Design</span><span class="sktag"><i class="fab fa-figma"></i> Figma</span><span class="sktag"><i class="fab fa-git-alt"></i> Git</span><span class="sktag"><i class="fab fa-bootstrap"></i> Bootstrap</span></div></div>
+      <div class="sg"><div class="sg-t">Design & Tools</div><div class="sktags"><span class="sktag"><i class="fas fa-pencil-ruler"></i> UI/UX Design</span><span class="sktag"><i class="fab fa-git-alt"></i> Git</span><span class="sktag"><i class="fab fa-bootstrap"></i> Bootstrap</span></div></div>
     </div>
     <div class="rr">
       <div class="skb"><div class="skb-h"><span>PHP / Backend</span><span class="skb-pct">88%</span></div><div class="skb-bg"><div class="skb-fill" data-w="88"></div></div></div>
